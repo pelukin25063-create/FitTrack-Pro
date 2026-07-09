@@ -1,0 +1,7 @@
+{
+  "name": "fittrack-pro",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

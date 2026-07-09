@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>FitTrack Pro</ion-title>
+    <ion-badge slot="end" [color]="isOnline ? 'success' : 'danger'" style="margin-right: 12px;">
+      {{ isOnline ? 'En línea' : 'Sin conexión' }}
+    </ion-badge>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <h2>Entrenamientos de hoy</h2>
+  <ion-card *ngIf="todaysWorkouts.length === 0" class="fittrack-card">
+    <ion-card-content>Aún no tienes entrenamientos registrados hoy. ¡Ve a la pestaña Entrenos!</ion-card-content>
+  </ion-card>
+
+  <ion-card *ngFor="let w of todaysWorkouts" class="fittrack-card">
+    <ion-card-header>
+      <ion-card-title>{{ w.name }}</ion-card-title>
+      <ion-card-subtitle>{{ w.type }}</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
+  <h2>Tips de fitness</h2>
+
+  <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+
+  <ion-card *ngIf="error && !loading" color="danger" class="fittrack-card">
+    <ion-card-content>
+      No se pudieron cargar los tips. Verifica tu conexión.
+      <ion-button fill="clear" color="light" (click)="loadTips()">Reintentar</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngFor="let tip of tips" class="fittrack-card">
+    <ion-card-header>
+      <ion-card-title>{{ tip.title }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>{{ tip.summary }}</ion-card-content>
+  </ion-card>
+</ion-content>

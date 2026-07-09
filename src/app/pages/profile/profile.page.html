@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h2>Datos personales</h2>
+  <ion-item>
+    <ion-label position="stacked">Nombre</ion-label>
+    <ion-input [(ngModel)]="profile.name"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Peso (kg)</ion-label>
+    <ion-input type="number" [(ngModel)]="profile.weightKg"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Altura (cm)</ion-label>
+    <ion-input type="number" [(ngModel)]="profile.heightCm"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Meta</ion-label>
+    <ion-input [(ngModel)]="profile.goal" placeholder="Ej. Bajar 5kg"></ion-input>
+  </ion-item>
+  <ion-button expand="block" color="primary" class="ion-margin-top" (click)="saveProfile()">
+    Guardar perfil
+  </ion-button>
+
+  <h2>Dispositivos Bluetooth (BLE)</h2>
+  <ion-item *ngIf="heartRate">
+    <ion-icon name="heart" color="danger" slot="start"></ion-icon>
+    <ion-label>Ritmo cardíaco: {{ heartRate }} BPM</ion-label>
+  </ion-item>
+
+  <ion-button expand="block" fill="outline" (click)="scanBleDevices()" [disabled]="scanning">
+    <ion-icon name="bluetooth" slot="start"></ion-icon>
+    {{ scanning ? 'Escaneando...' : 'Escanear dispositivos' }}
+  </ion-button>
+
+  <ion-list>
+    <ion-item *ngFor="let d of devices">
+      <ion-label>{{ d.name || 'Dispositivo BLE' }}</ion-label>
+      <ion-button *ngIf="connectedId !== d.deviceId" slot="end" (click)="connectDevice(d.deviceId)">
+        Conectar
+      </ion-button>
+      <ion-button *ngIf="connectedId === d.deviceId" slot="end" color="danger" (click)="disconnectDevice()">
+        Desconectar
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <h2>Compartir por NFC</h2>
+  <ion-item lines="none">
+    <ion-label>NFC soportado: {{ nfcSupported ? 'Sí' : 'No' }}</ion-label>
+  </ion-item>
+  <ion-button expand="block" color="secondary" (click)="shareRoutineByNfc()" [disabled]="!nfcSupported">
+    <ion-icon name="share-social" slot="start"></ion-icon>
+    Compartir mi rutina (tap-to-share)
+  </ion-button>
+  <ion-button expand="block" fill="outline" color="secondary" (click)="receiveRoutineByNfc()" [disabled]="!nfcSupported">
+    <ion-icon name="download" slot="start"></ion-icon>
+    Recibir rutina de un compañero
+  </ion-button>
+</ion-content>

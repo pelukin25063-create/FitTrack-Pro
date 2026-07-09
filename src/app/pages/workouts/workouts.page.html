@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Entrenamientos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="workouts.length > 0">
+    <ion-item-sliding *ngFor="let w of workouts">
+      <ion-item (contextmenu)="edit(w); $event.preventDefault()">
+        <ion-checkbox slot="start" [checked]="w.completed" (ionChange)="toggle(w.id)"></ion-checkbox>
+        <ion-label>
+          <h2>{{ w.name }}</h2>
+          <p>{{ w.type }} · {{ w.sets || 0 }}x{{ w.reps || 0 }} · {{ w.weightKg || 0 }}kg</p>
+        </ion-label>
+      </ion-item>
+
+      <!-- Gesto: swipe izquierda para eliminar -->
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="delete(w.id)">
+          <ion-icon name="trash" slot="icon-only"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <div *ngIf="workouts.length === 0" class="ion-padding ion-text-center">
+    <p>No tienes entrenamientos aún. Presiona "+" para agregar el primero.</p>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openForm()" color="secondary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-modal [isOpen]="showForm" (didDismiss)="showForm = false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Nuevo entrenamiento</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="showForm = false">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label position="stacked">Nombre</ion-label>
+          <ion-input [(ngModel)]="form.name" placeholder="Ej. Press de banca"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Tipo</ion-label>
+          <ion-select [(ngModel)]="form.type">
+            <ion-select-option value="Fuerza">Fuerza</ion-select-option>
+            <ion-select-option value="Cardio">Cardio</ion-select-option>
+            <ion-select-option value="Flexibilidad">Flexibilidad</ion-select-option>
+            <ion-select-option value="Otro">Otro</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Series</ion-label>
+          <ion-input type="number" [(ngModel)]="form.sets"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Repeticiones</ion-label>
+          <ion-input type="number" [(ngModel)]="form.reps"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Peso (kg)</ion-label>
+          <ion-input type="number" [(ngModel)]="form.weightKg"></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" color="primary" class="ion-margin-top" (click)="save()">
+          Guardar
+        </ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

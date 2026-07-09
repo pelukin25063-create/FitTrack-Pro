@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../node_modules/@capgo/capacitor-nfc/dist/esm/index.js"],
+  "sourcesContent": ["import { registerPlugin } from '@capacitor/core';\nconst CapacitorNfc = registerPlugin('CapacitorNfc', {\n    web: () => import('./web').then((m) => new m.CapacitorNfcWeb()),\n});\nexport * from './definitions';\nexport { CapacitorNfc };\n"],
+  "mappings": ";;;;;;AACA,IAAM,eAAe,eAAe,gBAAgB;AAAA,EAChD,KAAK,MAAM,OAAO,mBAAO,EAAE,KAAK,CAAC,MAAM,IAAI,EAAE,gBAAgB,CAAC;AAClE,CAAC;",
+  "names": []
+}

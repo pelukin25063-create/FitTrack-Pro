@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Progreso</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h2>Reproductor de audio</h2>
+  <ion-card class="fittrack-card">
+    <ion-card-content>
+      <p>{{ currentTrack.title }}</p>
+      <audio #audio [src]="currentTrack.src" (timeupdate)="onTimeUpdate()"></audio>
+      <ion-range [value]="progress" (ionChange)="seek($event)" min="0" max="100"></ion-range>
+      <ion-button expand="block" color="secondary" (click)="togglePlay()">
+        <ion-icon [name]="isPlaying ? 'pause' : 'play'" slot="start"></ion-icon>
+        {{ isPlaying ? 'Pausar' : 'Reproducir' }}
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <h2>Check-in de gimnasio (QR)</h2>
+  <ion-button expand="block" fill="outline" color="primary" (click)="checkInWithQr()">
+    <ion-icon name="qr-code" slot="start"></ion-icon>
+    Escanear código QR
+  </ion-button>
+
+  <h2>Fotos de progreso físico</h2>
+  <ion-button expand="block" color="primary" (click)="takePhoto()">
+    <ion-icon name="camera" slot="start"></ion-icon>
+    Tomar foto de progreso
+  </ion-button>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let photo of photos">
+        <ion-card class="fittrack-card">
+          <img [src]="photo.webPath" />
+          <ion-card-content>
+            <small>{{ photo.date | date: 'dd/MM/yyyy' }}</small>
+            <ion-button fill="clear" color="danger" size="small" (click)="deletePhoto(photo.id)">
+              <ion-icon name="trash" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

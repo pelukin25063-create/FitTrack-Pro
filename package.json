@@ -1,0 +1,50 @@
+{
+  "name": "fittrack-pro",
+  "version": "1.0.0",
+  "author": "FitTrack Pro",
+  "homepage": "https://ionicframework.com/",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "lint": "ng lint"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^20.0.0",
+    "@angular/common": "^20.0.0",
+    "@angular/compiler": "^20.0.0",
+    "@angular/core": "^20.0.0",
+    "@angular/forms": "^20.0.0",
+    "@angular/platform-browser": "^20.0.0",
+    "@angular/platform-browser-dynamic": "^20.0.0",
+    "@angular/router": "^20.0.0",
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/camera": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/geolocation": "^8.0.0",
+    "@capacitor/ios": "^8.0.0",
+    "@capacitor/network": "^8.0.0",
+    "@capacitor-community/bluetooth-le": "^8.1.3",
+    "@capgo/capacitor-nfc": "^8.0.28",
+    "@ionic/angular": "^8.8.0",
+    "@ionic/storage-angular": "^4.0.0",
+    "leaflet": "^1.9.4",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.6.0",
+    "zone.js": "~0.15.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^20.0.0",
+    "@angular/cli": "^20.0.0",
+    "@angular/compiler-cli": "^20.0.0",
+    "@angular/language-service": "^20.0.0",
+    "@capacitor/cli": "^8.0.0",
+    "@ionic/angular-toolkit": "^12.0.0",
+    "@types/leaflet": "^1.9.8",
+    "typescript": "~5.8.0"
+  },
+  "description": "FitTrack Pro - Aplicación móvil de seguimiento fitness (Ionic + Angular + Capacitor)"
+}

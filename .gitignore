@@ -1,0 +1,24 @@
+# Dependencias
+/node_modules
+
+# Build
+/www
+/dist
+/out-tsc
+
+# Capacitor nativo (se generan con npx cap add)
+/android
+/ios
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Logs
+npm-debug.log
+*.log
+
+# Sistema
+.DS_Store
+Thumbs.db

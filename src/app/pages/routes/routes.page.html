@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Rutas de ejercicio</ion-title>
+    <ion-badge slot="end" [color]="isOnline ? 'success' : 'danger'" style="margin-right: 12px;">
+      {{ isOnline ? 'En línea' : 'Sin conexión' }}
+    </ion-badge>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="fittrack-map"></div>
+
+  <div class="ion-padding controls">
+    <p *ngIf="distanceKm > 0">Última ruta: <strong>{{ distanceKm }} km</strong></p>
+
+    <ion-button *ngIf="!isTracking" expand="block" color="primary" (click)="startRoute()">
+      <ion-icon name="play" slot="start"></ion-icon>
+      Iniciar ruta
+    </ion-button>
+
+    <ion-button *ngIf="isTracking" expand="block" color="danger" (click)="stopRoute()">
+      <ion-icon name="stop" slot="start"></ion-icon>
+      Detener ruta
+    </ion-button>
+  </div>
+</ion-content>

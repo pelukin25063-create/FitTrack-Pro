@@ -1,0 +1,28 @@
+// FitTrack Pro - Paleta de colores
+:root {
+  --ion-color-primary: #16a34a;
+  --ion-color-primary-rgb: 22, 163, 74;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #139040;
+  --ion-color-primary-tint: #2dad5b;
+
+  --ion-color-secondary: #f97316;
+  --ion-color-secondary-rgb: 249, 115, 22;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #db6514;
+  --ion-color-secondary-tint: #fa812e;
+
+  --ion-color-success: #10b981;
+  --ion-color-danger: #ef4444;
+
+  --ion-background-color: #f1f5f9;
+  --ion-text-color: #0f172a;
+
+  --fittrack-radius: 12px;
+}
+
+.fittrack-card {
+  border-radius: var(--fittrack-radius);
+}
