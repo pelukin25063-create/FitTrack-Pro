@@ -3,7 +3,7 @@ import { AlertController } from '@ionic/angular';
 import { Workout } from '../../models/workout.model';
 import { WorkoutService } from '../../services/workout.service';
 
-// Unidad 3 (Interfaces) + Unidad 9 (Almacenamiento)
+
 @Component({
   selector: 'app-workouts',
   standalone: false,
@@ -14,7 +14,7 @@ export class WorkoutsPage implements OnInit {
   workouts: Workout[] = [];
   showForm = false;
 
-  // Modelo del formulario de nuevo entrenamiento
+  
   form: Partial<Workout> = this.emptyForm();
 
   constructor(private workoutService: WorkoutService, private alertCtrl: AlertController) {}

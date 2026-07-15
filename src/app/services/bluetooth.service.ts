@@ -3,12 +3,12 @@ import { BleClient, ScanResult } from '@capacitor-community/bluetooth-le';
 import { BehaviorSubject } from 'rxjs';
 import { BleDeviceInfo } from '../models/misc.model';
 
-// UUID estándar del servicio de ritmo cardíaco (Bluetooth SIG)
+
 const HEART_RATE_SERVICE = '0000180d-0000-1000-8000-00805f9b34fb';
 const HEART_RATE_MEASUREMENT = '00002a37-0000-1000-8000-00805f9b34fb';
 
 
-// Escanea y conecta bandas de ritmo cardíaco vía BLE.
+
 @Injectable({ providedIn: 'root' })
 export class BluetoothService {
   private devices$ = new BehaviorSubject<BleDeviceInfo[]>([]);

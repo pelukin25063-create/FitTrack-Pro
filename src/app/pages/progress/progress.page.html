@@ -8,8 +8,13 @@
   <h2>Reproductor de audio</h2>
   <ion-card class="fittrack-card">
     <ion-card-content>
-      <p>{{ currentTrack.title }}</p>
-      <audio #audio [src]="currentTrack.src" (timeupdate)="onTimeUpdate()"></audio>
+      <ion-segment [value]="currentTrackIndex" (ionChange)="changeTrack($event.detail.value)">
+        <ion-segment-button *ngFor="let t of tracks; let i = index" [value]="i">
+          <ion-label>{{ t.title }}</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+
+      <audio #audio [src]="currentTrack.src" (timeupdate)="onTimeUpdate()" (ended)="isPlaying = false"></audio>
       <ion-range [value]="progress" (ionChange)="seek($event)" min="0" max="100"></ion-range>
       <ion-button expand="block" color="secondary" (click)="togglePlay()">
         <ion-icon [name]="isPlaying ? 'pause' : 'play'" slot="start"></ion-icon>
@@ -19,7 +24,15 @@
   </ion-card>
 
   <h2>Check-in de gimnasio (QR)</h2>
-  <ion-button expand="block" fill="outline" color="primary" (click)="checkInWithQr()">
+  <ion-card *ngIf="isScanning" class="fittrack-card">
+    <ion-card-content>
+      <video #qrVideo autoplay playsinline muted class="qr-video"></video>
+      <ion-button expand="block" color="danger" (click)="stopQrScan()">
+        Cancelar escaneo
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+  <ion-button *ngIf="!isScanning" expand="block" fill="outline" color="primary" (click)="checkInWithQr()">
     <ion-icon name="qr-code" slot="start"></ion-icon>
     Escanear código QR
   </ion-button>
@@ -46,3 +59,4 @@
     </ion-row>
   </ion-grid>
 </ion-content>
+

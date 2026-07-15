@@ -12,17 +12,24 @@ import { ProgressPhoto } from '../../models/misc.model';
 })
 export class ProgressPage implements OnInit {
   @ViewChild('audio') audioRef!: ElementRef<HTMLAudioElement>;
+  @ViewChild('qrVideo') qrVideoRef!: ElementRef<HTMLVideoElement>;
 
   photos: ProgressPhoto[] = [];
   isPlaying = false;
   progress = 0; // 0-100
 
-  // Lista simple de podcasts/pistas motivacionales
+  // Pistas de audio de muestra (dominio público / libres de regalías,
+  // hospedadas externamente). En producción se reemplazarían por archivos
+  // propios en src/assets/audio/.
   tracks = [
-    { title: 'Motivación Matutina', src: 'assets/audio/motivacion.mp3' },
-    { title: 'Ritmo de Cardio', src: 'assets/audio/cardio-beat.mp3' },
+    { title: 'Motivación Matutina', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
+    { title: 'Ritmo de Cardio', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3' },
   ];
   currentTrackIndex = 0;
+
+  // Estado del escáner QR
+  isScanning = false;
+  private mediaStream: MediaStream | null = null;
 
   constructor(private cameraService: CameraService, private toastCtrl: ToastController) {}
 
@@ -55,6 +62,13 @@ export class ProgressPage implements OnInit {
     this.isPlaying = !this.isPlaying;
   }
 
+  changeTrack(index: number): void {
+    this.currentTrackIndex = index;
+    this.isPlaying = false;
+    this.progress = 0;
+    setTimeout(() => this.audioRef?.nativeElement.load(), 0);
+  }
+
   onTimeUpdate(): void {
     const audio = this.audioRef.nativeElement;
     this.progress = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
@@ -71,15 +85,66 @@ export class ProgressPage implements OnInit {
     return this.tracks[this.currentTrackIndex];
   }
 
-  // --- Escaneo QR para check-in de gimnasio ---
+  // --- Escaneo QR real para check-in de gimnasio ---
+  // Abre la cámara del dispositivo, muestra el video en pantalla y usa
+  // BarcodeDetector (a través de CameraService) para leer un código QR real.
   async checkInWithQr(): Promise<void> {
-    // En producción real: capturar frame de <video> con getUserMedia y pasar
-    // a cameraService.scanQrFromVideoFrame(videoEl). Aquí se simula el resultado.
-    await this.showToast('Check-in registrado correctamente ✅');
+    const AnyWindow = window as any;
+    if (!('BarcodeDetector' in AnyWindow)) {
+      this.showToast('Este navegador/dispositivo no soporta escaneo de QR nativo.');
+      return;
+    }
+
+    try {
+      this.isScanning = true;
+      this.mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' },
+      });
+
+      // Espera a que el <video> exista en el DOM (isScanning acaba de activarlo)
+      await new Promise(resolve => setTimeout(resolve, 100));
+      const videoEl = this.qrVideoRef.nativeElement;
+      videoEl.srcObject = this.mediaStream;
+      await videoEl.play();
+
+      // Intenta detectar un código QR cada 400ms, hasta 10 segundos
+      const result = await this.pollForQrCode(videoEl, 10000);
+      this.stopQrScan();
+
+      if (result) {
+        this.showToast(`Check-in registrado: ${result} ✅`);
+      } else {
+        this.showToast('No se detectó ningún código QR. Intenta de nuevo.');
+      }
+    } catch (err) {
+      this.stopQrScan();
+      this.showToast('No se pudo acceder a la cámara para escanear.');
+    }
+  }
+
+  private async pollForQrCode(videoEl: HTMLVideoElement, timeoutMs: number): Promise<string | null> {
+    const start = Date.now();
+    while (Date.now() - start < timeoutMs) {
+      try {
+        const result = await this.cameraService.scanQrFromVideoFrame(videoEl);
+        if (result) return result;
+      } catch {
+        // Sigue intentando hasta que se agote el tiempo
+      }
+      await new Promise(resolve => setTimeout(resolve, 400));
+    }
+    return null;
+  }
+
+  stopQrScan(): void {
+    this.mediaStream?.getTracks().forEach(track => track.stop());
+    this.mediaStream = null;
+    this.isScanning = false;
   }
 
   private async showToast(message: string): Promise<void> {
-    const toast = await this.toastCtrl.create({ message, duration: 2000 });
+    const toast = await this.toastCtrl.create({ message, duration: 2500 });
     await toast.present();
   }
 }
+
