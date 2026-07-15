@@ -105,11 +105,15 @@ src/app/
 | 10 | Servicios Web | `api.service.ts` (consumo de JSONPlaceholder) |
 
 ## Capturas de pantalla
+<img width="1366" height="721" alt="image" src="https://github.com/user-attachments/assets/be891a58-8967-41c7-b8e8-b0f7b84834bd" />
+<img width="1366" height="721" alt="image" src="https://github.com/user-attachments/assets/9d3366df-fcc3-4d2b-803e-511f89124bba" />
+<img width="1366" height="721" alt="image" src="https://github.com/user-attachments/assets/52a4dc53-6be4-4e80-808b-a2df96de2d93" />
+<img width="1366" height="721" alt="image" src="https://github.com/user-attachments/assets/c4e92736-d2d9-46a4-a294-6c35f9a3aa09" />
+<img width="1366" height="721" alt="image" src="https://github.com/user-attachments/assets/aed7b0d9-7b64-4de9-8cbc-6b32d091ee3c" />
 
-_[Agregar aquí capturas de la app corriendo en navegador, emulador y dispositivo físico]_
 
 ## Autor
 
-- **[Tu nombre completo]** — Matrícula: **[xxxxxx]**
+- **Carlos Daniel López Arno** — Matrícula: **100065695**
 - Asignatura: Programación de Dispositivos Móviles (ISW-307)
 - Facilitador: Joan Manuel Gregorio Pérez
